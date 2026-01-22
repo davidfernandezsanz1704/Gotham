@@ -11,7 +11,7 @@
             --text-color: #ffffff;
             --accent-color: #00ffb7; /* Verde neón */
             --price-color: #00ffb7;
-            --header-height: 60px;
+            --header-height: 50px; /* Reducido un poco la altura del header */
         }
 
         * {
@@ -22,39 +22,58 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* --- CONFIGURACIÓN DEL FONDO CON LOGO --- */
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             padding-bottom: 50px;
+            position: relative; /* Necesario para el posicionamiento del fondo */
         }
 
-        /* --- Header --- */
+        /* Esta es la "capa mágica" del fondo */
+        body::before {
+            content: "";
+            position: fixed; /* Se queda fijo al hacer scroll */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Se coloca detrás del contenido */
+            /* URL del logo de Gotham */
+            background-image: url('https://uploads.etersystem.es/uploads/2276861651c8b0c50a496.59529800.png');
+            background-repeat: no-repeat;
+            background-position: center center; /* Centrado en la pantalla */
+            background-size: 85%; /* Tamaño del logo en el fondo (ajustable) */
+            opacity: 0.1; /* Opacidad baja para que sea una marca de agua sutil */
+            pointer-events: none; /* Permite hacer clic a través del fondo */
+        }
+
+        /* --- Header (Ahora más simple sin el logo) --- */
         header {
-            background-color: var(--bg-color);
+            background-color: transparent; /* Fondo transparente para ver el logo detrás */
             padding: 10px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid #333;
+            justify-content: flex-start; /* Alineado a la izquierda para el botón */
+            /* border-bottom: 1px solid #333;  <-- Opcional: Quitado para que sea más limpio */
             height: var(--header-height);
         }
 
-        .logo-img {
-            max-height: 40px;
-        }
+        /* El logo img se ha eliminado del HTML y este estilo ya no es necesario */
+        /* .logo-img { max-height: 40px; } */
 
         .back-btn {
-            position: absolute;
-            left: 20px;
+            /* position: absolute; <-- Ya no es absolute */
             background: none;
             border: none;
             color: var(--accent-color);
-            font-size: 24px;
+            font-size: 28px; /* Un poco más grande */
             cursor: pointer;
-            display: none; /* Se muestra solo en subpáginas */
+            display: none;
+            padding-right: 20px;
         }
 
         /* --- Main Menu Grid --- */
@@ -77,7 +96,7 @@
         }
 
         .category-card {
-            background-color: var(--card-bg);
+            background-color: var(--card-bg); /* Mantenemos el fondo de las tarjetas para legibilidad */
             border-radius: 12px;
             padding: 20px;
             text-align: center;
@@ -131,6 +150,9 @@
             letter-spacing: 1px;
             border-bottom: 2px solid #333;
             padding-bottom: 10px;
+            background-color: var(--bg-color); /* Fondo sólido para el título */
+            padding-top: 10px;
+            border-radius: 8px;
         }
 
         .sub-category-title {
@@ -140,6 +162,9 @@
             border-bottom: 1px solid #333;
             font-size: 0.9rem;
             text-transform: uppercase;
+             background-color: var(--bg-color);
+             display: inline-block;
+             padding-right: 10px;
         }
 
         .product-item {
@@ -180,7 +205,7 @@
         .btn-allergens {
             display: block;
             margin: 20px auto;
-            background: transparent;
+            background: var(--card-bg); /* Fondo para que sea legible sobre el logo */
             border: 1px solid #555;
             color: #aaa;
             padding: 8px 16px;
@@ -198,6 +223,8 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
+            background-color: var(--bg-color); /* Fondo sólido para el footer */
+            padding-bottom: 20px;
         }
 
         .ig-link {
@@ -230,14 +257,13 @@
 <body>
 
     <header>
-        <button class="back-btn" id="backBtn" onclick="goHome()">&#10094;</button>
-        <img src="https://uploads.etersystem.es/uploads/2276861651c8b0c50a496.59529800.png" alt="Gotham Logo" class="logo-img">
+        <button class="back-btn" id="backBtn" onclick="goHome()">&#10094; Volver</button>
     </header>
 
     <div class="container">
         
         <div id="mainMenu">
-           
+            <button class="btn-allergens" onclick="alert('Consulta con el personal sobre alérgenos.')">Mostrar alérgenos</button>
 
             <div class="menu-grid">
                 <div class="category-card" onclick="showSection('shishas')">
@@ -335,157 +361,63 @@
 
         <div id="batidos" class="section-view">
             <h2 class="section-header">Batidos</h2>
-            <p style="text-align:center; color:#888; margin-bottom:15px;">Todos nuestros batidos llevan nata.</p>
-            
+            <p style="text-align:center; color:#888; margin-bottom:15px; background-color:var(--bg-color);">Todos nuestros batidos llevan nata.</p>
             <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Batido Oreo</div>
-                    <div class="product-desc">Con galleta oreo triturada.</div>
-                </div>
+                <div class="product-info"><div class="product-name">Batido Oreo</div><div class="product-desc">Con galleta oreo triturada.</div></div>
                 <div class="product-price">5.00 €</div>
             </div>
-            <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Batido Kinder</div>
-                    <div class="product-desc">Sabor kinder bueno.</div>
-                </div>
-                <div class="product-price">5.00 €</div>
-            </div>
-             </div>
+        </div>
 
         <div id="smoothies" class="section-view">
             <h2 class="section-header">Smoothies</h2>
             <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Frutos Rojos</div>
-                    <div class="product-desc">Fresa, frambuesa y arándanos.</div>
-                </div>
-                <div class="product-price">4.50 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Tropical</div>
-                    <div class="product-desc">Mango y piña.</div>
-                </div>
+                <div class="product-info"><div class="product-name">Frutos Rojos</div><div class="product-desc">Fresa, frambuesa y arándanos.</div></div>
                 <div class="product-price">4.50 €</div>
             </div>
         </div>
 
         <div id="refrescos" class="section-view">
             <h2 class="section-header">Refrescos</h2>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Coca Cola / Zero</div></div>
-                <div class="product-price">3.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Fanta Naranja / Limón</div></div>
-                <div class="product-price">3.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Nestea / Aquarius</div></div>
-                <div class="product-price">3.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Red Bull</div></div>
-                <div class="product-price">3.50 €</div>
-            </div>
+            <div class="product-item"><div class="product-info"><div class="product-name">Coca Cola / Zero</div></div><div class="product-price">3.00 €</div></div>
         </div>
 
         <div id="cervezas" class="section-view">
             <h2 class="section-header">Cervezas</h2>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Tercio Mahou</div></div>
-                <div class="product-price">3.50 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Doble de Cerveza</div></div>
-                <div class="product-price">3.00 €</div>
-            </div>
-             <div class="product-item">
-                <div class="product-info"><div class="product-name">Coronita</div></div>
-                <div class="product-price">4.00 €</div>
-            </div>
+            <div class="product-item"><div class="product-info"><div class="product-name">Tercio Mahou</div></div><div class="product-price">3.50 €</div></div>
         </div>
 
         <div id="licores" class="section-view">
             <h2 class="section-header">Licores y Vinos</h2>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Chupito Jaggermeister</div></div>
-                <div class="product-price">3.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Chupito Tequila</div></div>
-                <div class="product-price">3.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info"><div class="product-name">Copa de Vino</div></div>
-                <div class="product-price">3.50 €</div>
-            </div>
+            <div class="product-item"><div class="product-info"><div class="product-name">Chupito Jaggermeister</div></div><div class="product-price">3.00 €</div></div>
         </div>
 
         <div id="combinados" class="section-view">
             <h2 class="section-header">Botellas / Copas</h2>
             <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Copa Balón</div>
-                    <div class="product-desc">Beefeater, Barceló, Larios...</div>
-                </div>
+                <div class="product-info"><div class="product-name">Copa Balón</div><div class="product-desc">Beefeater, Barceló, Larios...</div></div>
                 <div class="product-price">7.00 €</div>
-            </div>
-             <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Copa Premium</div>
-                    <div class="product-desc">Seagrams, Jack Daniels...</div>
-                </div>
-                <div class="product-price">9.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Botella Estándar</div>
-                    <div class="product-desc">Incluye refrescos.</div>
-                </div>
-                <div class="product-price">80.00 €</div>
             </div>
         </div>
 
         <div id="comida" class="section-view">
             <h2 class="section-header">Comida</h2>
             <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Nachos con Queso</div>
-                    <div class="product-desc">Con guacamole y jalapeños.</div>
-                </div>
+                <div class="product-info"><div class="product-name">Nachos con Queso</div><div class="product-desc">Con guacamole y jalapeños.</div></div>
                 <div class="product-price">8.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Tequeños (6 uds)</div>
-                    <div class="product-desc">Con salsa de arándanos.</div>
-                </div>
-                <div class="product-price">7.50 €</div>
             </div>
         </div>
 
         <div id="dulce" class="section-view">
             <h2 class="section-header">Dulce</h2>
             <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Gofre con Chocolate</div>
-                    <div class="product-desc">Añade bola de helado +1€.</div>
-                </div>
+                <div class="product-info"><div class="product-name">Gofre con Chocolate</div><div class="product-desc">Añade bola de helado +1€.</div></div>
                 <div class="product-price">5.00 €</div>
-            </div>
-            <div class="product-item">
-                <div class="product-info">
-                    <div class="product-name">Crepe de Nutella</div>
-                </div>
-                <div class="product-price">4.505 €</div>
             </div>
         </div>
 
         <div id="ofertas" class="section-view">
             <h2 class="section-header">Ofertas Gotham</h2>
-            <div style="text-align: center; margin-bottom: 20px;">
+            <div style="text-align: center; margin-bottom: 20px; background-color: var(--bg-color); padding: 10px; border-radius: 8px;">
                 <img src="https://i.postimg.cc/hPQPPgJb/Gofre-smoothie.png" alt="Oferta" style="max-width: 100%; border-radius: 10px;">
             </div>
             <div class="product-item">
@@ -508,14 +440,10 @@
 
     <script>
         function showSection(sectionId) {
-            // Ocultar menú principal
             document.getElementById('mainMenu').style.display = 'none';
-            
-            // Ocultar todas las secciones
             const sections = document.querySelectorAll('.section-view');
             sections.forEach(s => s.style.display = 'none');
 
-            // Mostrar la sección seleccionada
             const target = document.getElementById(sectionId);
             if(target) {
                 target.style.display = 'block';
@@ -523,19 +451,14 @@
                 window.scrollTo(0,0);
             } else {
                 console.error("No existe la sección: " + sectionId);
-                goHome(); // Seguridad por si falla
+                goHome();
             }
         }
 
         function goHome() {
-            // Ocultar todas las secciones
             const sections = document.querySelectorAll('.section-view');
             sections.forEach(s => s.style.display = 'none');
-
-            // Mostrar menú principal
             document.getElementById('mainMenu').style.display = 'block';
-            
-            // Ocultar botón de volver
             document.getElementById('backBtn').style.display = 'none';
         }
     </script>
